@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public class ProductMapper {
+public interface ProductMapper {
     @Mapping(source = "category.id",target = "categoryId")
-     ProductDto toDto(Product product);
+    ProductDto toDto(Product product);
 }

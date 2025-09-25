@@ -6,7 +6,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class ProductDto {
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -14,7 +14,7 @@ public class ProductDto {
 
     private String price;
 
-    private int categoryId;
+    private Long categoryId;
 
 
 
