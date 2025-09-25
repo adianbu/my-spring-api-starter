@@ -20,7 +20,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public Iterable<UserDto> getAllUser(@RequestParam(defaultValue = "", required = false) String sort){
+    public Iterable<UserDto> getAllUser(@RequestParam(defaultValue = "", required = false, name = "sort") String sort){
         if(!Set.of("name","email").contains(sort))
             sort="name";
 
