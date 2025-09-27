@@ -25,7 +25,6 @@ public class ProductController {
     ){
         List<Product> products;
         if (categoryId != null){
-//            System.out.println("categoryId :"+categoryId);
             products=productRepository.findByCategoryId(categoryId);
 //            for (int i = 0; i < products.toArray().length; i++) {
 //                System.out.println("products :"+ products.get(i).getCategory().getId());
