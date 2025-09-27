@@ -20,6 +20,7 @@ public class ProductController {
 
     @GetMapping
     private List<ProductDto> GetAllProducts(
+            @RequestHeader(name="auth-token", required = false) String authToken,
             @RequestParam(name="categoryId", required = false) Byte categoryId
     ){
         List<Product> products;
