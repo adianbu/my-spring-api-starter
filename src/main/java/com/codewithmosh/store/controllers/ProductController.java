@@ -6,27 +6,37 @@ import com.codewithmosh.store.mappers.ProductMapper;
 import com.codewithmosh.store.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @GetMapping("/products")
-    private List<ProductDto> GetAllProducts(){
-        return productRepository.findAll().stream().map(productMapper::toDto).toList();
+    @GetMapping
+    private List<ProductDto> GetAllProducts(
+            @RequestParam(name="categoryId", required = false) Byte categoryId
+    ){
+        List<Product> products;
+        if (categoryId != null){
+//            System.out.println("categoryId :"+categoryId);
+            products=productRepository.findByCategoryId(categoryId);
+//            for (int i = 0; i < products.toArray().length; i++) {
+//                System.out.println("products :"+ products.get(i).getCategory().getId());
+//            }
+        }
+        else{
+            products=productRepository.findAllWithCategory();
+        }
+        return products.stream().map(productMapper::toDto).toList();
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     private ResponseEntity<ProductDto> GetProduct(@PathVariable Long id){
         Product product =  productRepository.findById(id).orElse(null);
         if (product==null){

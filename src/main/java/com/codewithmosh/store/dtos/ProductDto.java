@@ -3,6 +3,8 @@ package com.codewithmosh.store.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Data
 public class ProductDto {
@@ -12,10 +14,8 @@ public class ProductDto {
 
     private String description;
 
-    private String price;
+    private BigDecimal price;
 
-    private Long categoryId;
-
-
+    private Byte categoryId;
 
 }
