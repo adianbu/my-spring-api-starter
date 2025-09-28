@@ -45,4 +45,11 @@ public class ProductController {
         return ResponseEntity.ok(productMapper.toDto(product)) ;
     }
 
+    @PostMapping("/createProduct")
+    private ResponseEntity<ProductDto> CreateProduct(@RequestBody ProductDto productDto){
+        var product = productMapper.toEntity(productDto);
+        productRepository.save(product);
+        return ResponseEntity.ok().build() ;
+    }
+
 }

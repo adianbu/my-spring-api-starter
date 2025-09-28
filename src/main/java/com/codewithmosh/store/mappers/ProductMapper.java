@@ -9,4 +9,8 @@ import org.mapstruct.Mapping;
 public interface ProductMapper {
     @Mapping(source = "category.id",target = "categoryId")
     ProductDto toDto(Product product);
+
+    @Mapping(source = "categoryId",target = "category.id")
+    Product toEntity(ProductDto request);
+
 }
