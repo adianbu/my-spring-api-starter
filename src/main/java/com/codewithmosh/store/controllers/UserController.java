@@ -1,5 +1,6 @@
 package com.codewithmosh.store.controllers;
 
+import com.codewithmosh.store.dtos.PasswordChangeRequest;
 import com.codewithmosh.store.dtos.RegisterUserRequest;
 import com.codewithmosh.store.dtos.UpdateUserRequest;
 import com.codewithmosh.store.dtos.UserDto;
@@ -9,6 +10,7 @@ import com.codewithmosh.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriBuilder;
@@ -73,5 +75,28 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDto(user));
     }
 
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<UserDto> deleteUser(@PathVariable(name = "id") Long id){
+        var user = userRepository.findById(id).orElse(null);
+        if(user == null){
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.delete(user);
+        return ResponseEntity.ok(userMapper.toDto(user));
+    }
 
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<Void> changePassword(@PathVariable(name = "id") Long id, @RequestBody PasswordChangeRequest passwordChangeRequest){
+        var user = userRepository.findById(id).orElse(null);
+        if(user == null){
+            return ResponseEntity.notFound().build();
+        }
+        if(user.getPassword().equals(passwordChangeRequest.getOldPassword())){
+            user.setPassword(passwordChangeRequest.getNewPassword());
+            userRepository.save(user);
+        }else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.ok().build();
+    }
 }
