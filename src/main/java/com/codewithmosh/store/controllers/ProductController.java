@@ -65,7 +65,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(productDto) ;
     }
 
-    @PostMapping("/updateProduct/{id}")
+    @PutMapping("/updateProduct/{id}")
     private ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
         var category = categoryRepository.findById(productDto.getCategoryId()).orElse(null);
         if(category == null){
@@ -82,4 +82,15 @@ public class ProductController {
         return ResponseEntity.ok(productDto) ;
     }
 
+    @DeleteMapping("/deleteProduct/{id}")
+    private ResponseEntity<ProductDto> CreateProduct(
+            @PathVariable Long id){
+
+        var product = productRepository.findById(id).orElse(null);
+        if (product==null){
+            return ResponseEntity.notFound().build();
+        }
+        productRepository.delete(product);
+        return ResponseEntity.noContent().build() ;
+    }
 }
